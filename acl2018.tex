@@ -151,7 +151,20 @@ We realize that it is possible to extend the capturing using machine learning te
 
 In order to overcome some of these limitations, we have limited the type of generalization that is represented by the analogies. We require that the initial seed will be based on entities which are "highly-related" to one of the words from the input. For example, when investigating \textit{germany-berlin}, the seed will be of words that are similar to \textit{germany}. This improves the accuracy of the model in capturing semantic/domain-specific relations. Therefore, it is more likely that relations that will arise from the process will yield more intuitive "hints" in the form of keywords. This method both generates and evaluate candidates for pair analogies.
 
-Secondly, since the source and target candidates are generated in two small spheres (euclidean-wise), it is common to have two different sources forming the same relations with a singe target. In most cases, these relations introduce noise. We use a simple greedy method to disambiguate relations, we think it could have been possible to generalize some more robust methods ~\cite{daelemans1999introduction} for this task.
+Secondly, since the source and target candidates are generated in two small spheres (euclidean-wise), it is common to have two different sources forming the same relations with a singe target. In most cases, these relations introduce noise. We use a simple greedy method to disambiguate relations, we think it could have been possible to generalize some more robust methods ~\cite{daelemans1999introduction} for this task. In practice, our greedy approach chooses a node with degree greater than one and prunes all the weak edges. For example, the following ambiguity:
+
+\begin{tikzpicture}[node distance=1.7cm]
+  % Dialectics
+  \node[draw] (germany) {germany};
+  \node[draw, right of=germany] (austria) {austria};
+  \node[draw, below of=germany] (berlin) {berlin};
+  \node[draw, right of=berlin] (vienna) {vienna};
+  
+  \draw[->] (germany)  edge node[left] {0.9} (berlin);
+  \draw[->] (germany) edge node[left] {0.8} (vienna);
+  \draw[->] (austria) edge node[right] {0.7} (vienna);
+  
+\end{tikzpicture}
 
 \begin{tikzpicture}[node distance=1.75cm]
   % Dialectics
@@ -161,14 +174,14 @@ Secondly, since the source and target candidates are generated in two small sphe
   \node[draw, right of=berlin] (vienna) {vienna};
   
   \draw[->] (germany)  to (berlin);
-  \draw[->] (germany) to (vienna);
-  \draw[->] (austria) to (vienna);
+  \draw[->] (germany) edge[gray] node {X} (vienna);
+    \draw[->] (austria) to (vienna);
   
 \end{tikzpicture}
+
+Since the task is a global optimization one, we could have solved it using an LP in a similar way to some classic algorithms ~\cite{aumann1998log}. Yet, in practice ambiguities appear in very few nodes, so the side effects are very narrow and global optimization has very little advantage over simple local ones.
+
 \subsection{Description generation}
-
-(Need to explain more on the weights)
-
 
 \section{Evaluation}
 
