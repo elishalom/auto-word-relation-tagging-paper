@@ -166,6 +166,8 @@ Secondly, since the source and target candidates are generated in two small sphe
   
 \end{tikzpicture}
 
+Is resolved as:
+
 \begin{tikzpicture}[node distance=1.75cm]
   % Dialectics
   \node[draw] (germany) {germany};
@@ -182,6 +184,10 @@ Secondly, since the source and target candidates are generated in two small sphe
 Since the task is a global optimization one, we could have solved it using an LP in a similar way to some classic algorithms ~\cite{aumann1998log}. Yet, in practice ambiguities appear in very few nodes, so the side effects are very narrow and global optimization has very little advantage over simple local ones.
 
 \subsection{Description generation}
+
+The task can be considered as meta-data extraction such in ~\cite{yilmazel2004metaextract}. The first vertical of difference is the target entity which is being labeled. In the classical meta-data extraction the target entity is the document itself. In this case, it makes a lot of sense to assign different weights to different sections of the document such as the title. A second vertical of difference is the fact the meta-data extraction labels a single document, while the relations labels producer uses multiple documents at once. Yet, both systems, take into account relative frequency of terms as the main criteria for ranking.
+
+A second and more relevant task is the keywords extraction task. In general, this task goal is to yield several terms for a document (given a large corpus during model preparation) that represent key concepts from the documents. Most of these tasks use a specific method, such as n-gram count in ~\cite{cohen1995highlights}, statistical approach in ~\cite{luhn1957statistical}, co-occurrences in ~\cite{matsuo2004keyword}, PAT-tree based in ~\cite{chien1997pat}, or a combination of some methods like in ~\cite{zhang2008automatic}. The task being performed by our labels producer requires a step which is not inherent to any of the other methods which is identifying commonalities. Therefore, a prior step is intersecting the vocabulary induced by each document, with some smoothing, yields a seed of "classes". The most important class is the one of words that appear in most documents. This shrinks the number of candidates significantly. Yet, the labels producer might be improved by extending the variety of heuristics.
 
 \section{Evaluation}
 
