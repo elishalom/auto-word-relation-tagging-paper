@@ -110,8 +110,8 @@ As can be seen, the first two terms are the expected ones to describe the intuit
 \section{Data, methods and Language-specificity}
 The system assumes that a word embedding is provided where:
 \begin{enumerate}
-\item Words preserve distance, meaning that words that are more similar are closer to one another in the vector space (using a metric like cosine similarity) 
-than words that are less similar, where similarity can be defined by context and distributional properties. For example if two words can be 
+\item Words preserve distance, meaning that words that are more similar are closer to one another in the vector space (using a metric like Euclidean distance or cosine similarity) 
+than words that are less similar, where similarity can be defined by context and distributional properties. For example if two words are 
 interchangeable in most context they might be considered very similar \cite{mikolov2013linguistic}.
 \item Words preserve analogies, meaning that by calculating $v = vec(x) - vec(y) + vec(z)$, we get that the word $w$ for which $vec(w)$ is 
 closest to $v$ should preserve the analogy $x:y::v:z$. For example the vector closest to $v = vec("Brother") - vec("Man") + vec("Woman")$ should be 
@@ -216,7 +216,7 @@ Some of the more difficult aspects of our work were parts which involved tuning 
 \item Distance threshold: A threshold which is used to determine if a source is similar enough to the target that was chosen for it. This threshold improved the results by filtering out word pairs which are not very related. We reached the conclusion that we need to incorporate this threshold in our system after we observed that having less pairs but higher accuracy yields better results than having more pairs but lower accuracy.
 For example: Providing the pair (australia, canberra) as input to the pairs finder yields the pairs (asian, tokyo), (world, athens), (india, delhi), (britain, ankara), (ireland, dublin), (scotland, christchurch), (england, aberdeen), (united, washington), (canada, ottawa), (uk, overground), (australia, canberra), (zimbabwe, harare), (sydney, melbourne). After introducing the distance threshold, the pairs (asian, tokyo), (united, washington), (uk, overground) and (sydney, melbourne) were eliminated, where 3 out of 4 of these pairs are undesired in this context.
 
-\item Distance metrics: The understanding of when to use euclidean similarity and when to cosine similarity was challenging. It appears to be that the similarity to words vectors was not highly affected by the metric, this is mostly attributed to the high dimensionality of the space \cite{qian2004similarity}. Yet, the euclidean metric yielded results which were a little better than the cosine results.
+\item Distance metrics: The understanding of when to use euclidean similarity and when to use cosine similarity was challenging. It appears to be that the similarity between word vectors was not highly affected by the metric, this is mostly attributed to the high dimensionality of the space \cite{qian2004similarity}. Yet, the euclidean metric yielded results which were a little better than the cosine results.
 
 While the results for words were comparable, for the difference vectors the results were different. After several evaluations we concluded that the cosine metric is much better for determining similarity between difference vectors. Eventually, we combined the two metrics.
 
