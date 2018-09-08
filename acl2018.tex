@@ -74,9 +74,9 @@ The system we developed consists of two parts. The first component (henceforth, 
 A word embedding is used to find similar\_sources, a list of 20 words that are most similar to $s$. Let $vec(w)$ be the embedding of the word $w$ in the vector space. For each word $w$ in similar\_sources, we look for 20 words that have a similar relation to $w$ as the relation between $t$ and $s$, this will be the list similar\_targets. This is done by calculating $v = vec(w) + vec(t) - vec(s)$ and looking for the 20 closest words to v. then, from similar\_targets, the word w' which is closest to w is taken, and the edge $e=(w, w')$ is added to $G$ with $weight(e)$ being the cosine distance between them. Then, vertices with degree higher than 4 are removed from the graph to reduce ambiguity. Finally, a maximal matching is computed on the graph by removing the heaviest edges iteratively until there is no vertex with degree higher than 1. This matching constitutes the list of terms which is passed to the next component.
 
 The second component (henceforth, referred to as the label producer) receives this list of pairs as input and produces a list of words which describe the relation between the words in every pair. Let $x$ and $x'$ be a pair of words in the list returned by the pairs finder. The label producer queries a large corpus (English Wikipedia) for the term "$x$ $x'$" and gets a set of 20 most relevant pages for this term. For every page, a list $L$ of words which appear in all sentences that contain both $x$ and $x'$ is produced. Then, a tf-idf metric is calculated on these words where the term frequency of a word $y$ is is the number of occurrences of $y$ in all sentences containing both $x$ and $x'$ across all 20 pages of the given term. In the last step, a product of all tf-idf values of the same words across the result lists $L$ of all pairs is calculated, and the results are ordered by the highest tf-idf product in descending order, which gives the label list.
-\section{Highly recommended}
+\section{Example}
 \subsection{Pairs finding}
-This is an intermediate step towards labeling. Given \textit{germany} and \textit{berlin}, the module extracts:
+ Given \textit{germany} and \textit{berlin}, the module extracts:
 \begin{tabular}{ l l }
   austria & vienna \\
   slovakia & bratislava \\
@@ -91,7 +91,7 @@ This is an intermediate step towards labeling. Given \textit{germany} and \texti
 \end{tabular}
 
 \subsection{Relation labeling}
-This is the main step that given analogies generates candidate terms to label the relation. given the list of analogies generated for \textit{germany} and \textit{berlin}, the modules yields:
+ given the list of analogies generated for \textit{germany} and \textit{berlin}, the modules yields:
 \begin{enumerate}
 \itemsep0em 
 \item \textbf{city}
